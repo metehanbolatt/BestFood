@@ -1,10 +1,10 @@
-package com.metehanbolat.bestfood
+package com.metehanbolat.bestfood.presentation.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
+import com.metehanbolat.bestfood.R
 import com.metehanbolat.bestfood.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {

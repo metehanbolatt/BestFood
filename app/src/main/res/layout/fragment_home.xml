@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.main.HomeFragment">
+    tools:context=".presentation.main.home.HomeFragment">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -72,11 +72,39 @@
                     android:id="@+id/imgRandomMeal"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/accent"
                     android:scaleType="centerCrop"
                     android:contentDescription="@string/random_meal_image" />
 
             </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/refreshCardView"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:layout_margin="@dimen/_5sdp"
+                app:cardUseCompatPadding="true"
+                app:cardCornerRadius="@dimen/_8sdp"
+                android:visibility="invisible"
+                app:layout_constraintTop_toTopOf="@id/randomMealCard"
+                app:layout_constraintEnd_toEndOf="@id/randomMealCard">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_refresh"
+                    android:contentDescription="@string/refresh_icon"/>
+
+            </androidx.cardview.widget.CardView>
+
+            <ProgressBar
+                android:id="@+id/randomMealProgress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:elevation="5dp"
+                app:layout_constraintStart_toStartOf="@id/randomMealCard"
+                app:layout_constraintTop_toTopOf="@id/randomMealCard"
+                app:layout_constraintBottom_toBottomOf="@id/randomMealCard"
+                app:layout_constraintEnd_toEndOf="@id/randomMealCard" />
 
             <TextView
                 android:id="@+id/tvOverPopular"

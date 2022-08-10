@@ -13,4 +13,7 @@
     <string name="favorite_button">Favorite Button</string>
     <string name="instructions">"- Instructions: "</string>
     <string name="youtube_image">Youtube Image</string>
+    
+    <string name="meal_detail_category">Category: %1$s</string>
+    <string name="meal_detail_area">Area: %1$s</string>
 </resources>

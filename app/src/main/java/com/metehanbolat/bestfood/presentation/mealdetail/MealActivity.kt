@@ -38,7 +38,6 @@ class MealActivity : AppCompatActivity() {
         setInformationInViews()
         observeMealDetail()
         onYoutubeImageClick()
-
     }
 
     private fun onYoutubeImageClick() {
@@ -55,7 +54,8 @@ class MealActivity : AppCompatActivity() {
             val meal = it
             youtubeLink = meal.strYoutube
             binding.apply {
-                tvCategory.text = resources.getString(R.string.meal_detail_category, meal.strCategory)
+                tvCategory.text =
+                    resources.getString(R.string.meal_detail_category, meal.strCategory)
                 tvArea.text = resources.getString(R.string.meal_detail_area, meal.strArea)
                 tvInstructionsDetail.text = meal.strInstructions
             }
@@ -69,8 +69,18 @@ class MealActivity : AppCompatActivity() {
                 .into(imgMealDetail)
 
             collapsingToolbar.title = mealName
-            collapsingToolbar.setCollapsedTitleTextColor(ContextCompat.getColor(baseContext, R.color.white))
-            collapsingToolbar.setExpandedTitleColor(ContextCompat.getColor(baseContext, R.color.white))
+            collapsingToolbar.setCollapsedTitleTextColor(
+                ContextCompat.getColor(
+                    baseContext,
+                    R.color.white
+                )
+            )
+            collapsingToolbar.setExpandedTitleColor(
+                ContextCompat.getColor(
+                    baseContext,
+                    R.color.white
+                )
+            )
         }
 
     }

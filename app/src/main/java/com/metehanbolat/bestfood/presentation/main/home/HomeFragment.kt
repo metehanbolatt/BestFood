@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.metehanbolat.bestfood.databinding.FragmentHomeBinding
 import com.metehanbolat.bestfood.models.Meal
@@ -18,6 +19,7 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var homeViewModel: HomeFragmentViewModel
+    private lateinit var popularItemsAdapter: MostPopularAdapter
 
     private lateinit var randomMeal: Meal
 
@@ -32,16 +34,22 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
+
         homeViewModel = ViewModelProvider(this)[HomeFragmentViewModel::class.java]
+        popularItemsAdapter = MostPopularAdapter()
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        preparePopularItemsRecyclerView()
+        homeViewModel.getRandomMeal()
         observeRandomMeal()
+        homeViewModel.getPopularItems("Seafood")
+        observePopularItems()
         clicks()
-
     }
 
     private fun observeRandomMeal() {
@@ -55,8 +63,22 @@ class HomeFragment : Fragment() {
         }
     }
 
+    private fun observePopularItems() {
+        homeViewModel.popularItems.observe(viewLifecycleOwner) {
+            it?.let {
+                popularItemsAdapter.setMeals(it as ArrayList)
+            }
+        }
+    }
+
+    private fun preparePopularItemsRecyclerView() {
+        binding.recViewMealsPopular.apply {
+            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            adapter = popularItemsAdapter
+        }
+    }
+
     private fun clicks() {
-        /** Random Meal Card to Meal Detail */
         binding.randomMealCard.setOnClickListener {
             Intent(requireContext(), MealActivity::class.java).apply {
                 putExtra(MEAL_ID, randomMeal.idMeal)
@@ -66,11 +88,19 @@ class HomeFragment : Fragment() {
             }
         }
 
-        /** Refresh Random Meal */
         binding.refreshCardView.setOnClickListener {
             binding.refreshCardView.visibility = View.INVISIBLE
             binding.randomMealProgress.visibility = View.VISIBLE
             homeViewModel.getRandomMeal()
+        }
+
+        popularItemsAdapter.onItemClick = { meal ->
+            Intent(requireContext(), MealActivity::class.java).apply {
+                putExtra(MEAL_ID, meal.idMeal)
+                putExtra(MEAL_NAME, meal.strMeal)
+                putExtra(MEAL_THUMB, meal.strMealThumb)
+                startActivity(this)
+            }
         }
     }
 

@@ -1,16 +1,17 @@
 package com.metehanbolat.bestfood.presentation.main.home
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.metehanbolat.bestfood.databinding.PopularItemsBinding
-import com.metehanbolat.bestfood.models.CategoryMeals
+import com.metehanbolat.bestfood.models.MealsByCategory
 
 class MostPopularAdapter : RecyclerView.Adapter<MostPopularAdapter.PopularMealViewHolder>() {
 
-    lateinit var onItemClick:((CategoryMeals) -> Unit)
-    private var mealsList = ArrayList<CategoryMeals>()
+    lateinit var onItemClick:((MealsByCategory) -> Unit)
+    private var mealsList = ArrayList<MealsByCategory>()
 
     class PopularMealViewHolder(val binding: PopularItemsBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -29,7 +30,8 @@ class MostPopularAdapter : RecyclerView.Adapter<MostPopularAdapter.PopularMealVi
 
     override fun getItemCount() = mealsList.size
 
-    fun setMeals(mealsList: ArrayList<CategoryMeals>) {
+    @SuppressLint("NotifyDataSetChanged")
+    fun setMeals(mealsList: ArrayList<MealsByCategory>) {
         this.mealsList = mealsList
         notifyDataSetChanged()
     }

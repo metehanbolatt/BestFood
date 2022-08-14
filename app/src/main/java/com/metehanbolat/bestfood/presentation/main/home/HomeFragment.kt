@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.metehanbolat.bestfood.databinding.FragmentHomeBinding
@@ -20,6 +21,7 @@ class HomeFragment : Fragment() {
 
     private lateinit var homeViewModel: HomeFragmentViewModel
     private lateinit var popularItemsAdapter: MostPopularAdapter
+    private lateinit var categoriesAdapter: CategoriesAdapter
 
     private lateinit var randomMeal: Meal
 
@@ -37,6 +39,7 @@ class HomeFragment : Fragment() {
 
         homeViewModel = ViewModelProvider(this)[HomeFragmentViewModel::class.java]
         popularItemsAdapter = MostPopularAdapter()
+        categoriesAdapter = CategoriesAdapter()
 
         return binding.root
     }
@@ -45,10 +48,13 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         preparePopularItemsRecyclerView()
+        prepareCategoriesRecyclerView()
         homeViewModel.getRandomMeal()
         observeRandomMeal()
         homeViewModel.getPopularItems("Seafood")
         observePopularItems()
+        homeViewModel.getCategories()
+        observeCategories()
         clicks()
     }
 
@@ -65,9 +71,14 @@ class HomeFragment : Fragment() {
 
     private fun observePopularItems() {
         homeViewModel.popularItems.observe(viewLifecycleOwner) {
-            it?.let {
-                popularItemsAdapter.setMeals(it as ArrayList)
-            }
+            it?.let { popularItemsAdapter.setMeals(it as ArrayList) }
+        }
+    }
+
+    private fun observeCategories() {
+        homeViewModel.categories.observe(viewLifecycleOwner) {
+            it?.let { categoriesAdapter.setCategoryList(it) }
+
         }
     }
 
@@ -75,6 +86,13 @@ class HomeFragment : Fragment() {
         binding.recViewMealsPopular.apply {
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             adapter = popularItemsAdapter
+        }
+    }
+
+    private fun prepareCategoriesRecyclerView() {
+        binding.recViewCategories.apply {
+            layoutManager = GridLayoutManager(requireContext(), 3, GridLayoutManager.VERTICAL, false)
+            adapter = categoriesAdapter
         }
     }
 

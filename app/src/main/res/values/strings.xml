@@ -17,4 +17,5 @@
     <string name="meal_detail_category">Category: %1$s</string>
     <string name="meal_detail_area">Area: %1$s</string>
     <string name="popular_meal_item_image">Popular Meal Item Image</string>
+    <string name="category_image">Category Image</string>
 </resources>

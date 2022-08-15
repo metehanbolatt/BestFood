@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.metehanbolat.bestfood.databinding.FragmentHomeBinding
 import com.metehanbolat.bestfood.models.Meal
+import com.metehanbolat.bestfood.presentation.categorymeals.CategoryMealsActivity
 import com.metehanbolat.bestfood.presentation.mealdetail.MealActivity
 
 class HomeFragment : Fragment() {
@@ -29,6 +30,7 @@ class HomeFragment : Fragment() {
         const val MEAL_ID = "com.metehanbolat.bestfood.presentation.main.home.idMeal"
         const val MEAL_NAME = "com.metehanbolat.bestfood.presentation.main.home.nameMeal"
         const val MEAL_THUMB = "com.metehanbolat.bestfood.presentation.main.home.thumbMeal"
+        const val CATEGORY_NAME = "com.metehanbolat.bestfood.presentation.main.home.categoryName"
     }
 
     override fun onCreateView(
@@ -117,6 +119,13 @@ class HomeFragment : Fragment() {
                 putExtra(MEAL_ID, meal.idMeal)
                 putExtra(MEAL_NAME, meal.strMeal)
                 putExtra(MEAL_THUMB, meal.strMealThumb)
+                startActivity(this)
+            }
+        }
+
+        categoriesAdapter.onItemClick = { category ->
+            Intent(requireContext(), CategoryMealsActivity::class.java).apply {
+                putExtra(CATEGORY_NAME, category.strCategory)
                 startActivity(this)
             }
         }

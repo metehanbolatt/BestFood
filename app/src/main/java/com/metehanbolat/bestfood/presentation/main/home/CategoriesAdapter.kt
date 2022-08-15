@@ -11,6 +11,7 @@ import com.metehanbolat.bestfood.models.Category
 class CategoriesAdapter : RecyclerView.Adapter<CategoriesAdapter.CategoryViewHolder>() {
 
     private var categoriesList = ArrayList<Category>()
+    var onItemClick: ((Category) -> Unit)? = null
 
     @SuppressLint("NotifyDataSetChanged")
     fun setCategoryList(categoriesList: List<Category>) {
@@ -33,9 +34,9 @@ class CategoriesAdapter : RecyclerView.Adapter<CategoriesAdapter.CategoryViewHol
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
         holder.binding.apply {
-            Glide.with(holder.itemView).load(categoriesList[position].strCategoryThumb)
-                .into(imgCategory)
+            Glide.with(holder.itemView).load(categoriesList[position].strCategoryThumb).into(imgCategory)
             tvCategoryName.text = categoriesList[position].strCategory
+            root.setOnClickListener { onItemClick?.invoke(categoriesList[position]) }
         }
     }
 

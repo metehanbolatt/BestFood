@@ -20,8 +20,12 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvMeals"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
+        tools:listitem="@layout/meal_item"
+        tools:itemCount="4"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:spanCount="2"
         app:layout_constraintTop_toBottomOf="@id/tvCategoryCount"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

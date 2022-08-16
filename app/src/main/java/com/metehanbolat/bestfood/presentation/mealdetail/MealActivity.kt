@@ -52,7 +52,7 @@ class MealActivity : AppCompatActivity() {
         viewModel.mealDetails.observe(this) {
             onResponseCase()
             val meal = it
-            youtubeLink = meal.strYoutube
+            youtubeLink = meal.strYoutube.toString()
             binding.apply {
                 tvCategory.text =
                     resources.getString(R.string.meal_detail_category, meal.strCategory)

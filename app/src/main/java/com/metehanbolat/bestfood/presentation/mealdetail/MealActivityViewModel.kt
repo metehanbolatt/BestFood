@@ -4,14 +4,19 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.metehanbolat.bestfood.database.MealDatabase
 import com.metehanbolat.bestfood.models.Meal
 import com.metehanbolat.bestfood.models.MealList
 import com.metehanbolat.bestfood.service.RetrofitInstance
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MealActivityViewModel: ViewModel() {
+class MealActivityViewModel(
+    val mealDatabase: MealDatabase
+): ViewModel() {
 
     private val _mealDetails = MutableLiveData<Meal>()
     val mealDetails: LiveData<Meal> = _mealDetails
@@ -30,4 +35,8 @@ class MealActivityViewModel: ViewModel() {
 
         })
     }
+
+    fun insertMeal(meal: Meal) { viewModelScope.launch { mealDatabase.mealDao().upsert(meal) } }
+    fun deleteMeal(meal: Meal) { viewModelScope.launch { mealDatabase.mealDao().delete(meal) } }
+
 }

@@ -4,13 +4,16 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.metehanbolat.bestfood.database.MealDatabase
 import com.metehanbolat.bestfood.models.*
 import com.metehanbolat.bestfood.service.RetrofitInstance
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class HomeFragmentViewModel: ViewModel() {
+class HomeFragmentViewModel(
+    private val mealDatabase: MealDatabase
+): ViewModel() {
 
     private val _randomMeal = MutableLiveData<Meal>()
     val randomMeal: LiveData<Meal> = _randomMeal
@@ -20,6 +23,9 @@ class HomeFragmentViewModel: ViewModel() {
 
     private val _categories = MutableLiveData<List<Category>>()
     val categories: LiveData<List<Category>> = _categories
+
+    private val _favoritesMeals = MutableLiveData<List<Meal>>(mealDatabase.mealDao().getAllMeals().value)
+    val favoritesMeals: LiveData<List<Meal>> = _favoritesMeals
 
     fun getRandomMeal() {
         RetrofitInstance.api.getRandomMeal().enqueue(object : Callback<MealList> {

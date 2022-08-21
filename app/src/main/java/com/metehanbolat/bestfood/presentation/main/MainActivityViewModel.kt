@@ -1,17 +1,19 @@
-package com.metehanbolat.bestfood.presentation.main.home
+package com.metehanbolat.bestfood.presentation.main
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.metehanbolat.bestfood.database.MealDatabase
 import com.metehanbolat.bestfood.models.*
 import com.metehanbolat.bestfood.service.RetrofitInstance
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class HomeFragmentViewModel(
+class MainActivityViewModel(
     private val mealDatabase: MealDatabase
 ): ViewModel() {
 
@@ -24,8 +26,10 @@ class HomeFragmentViewModel(
     private val _categories = MutableLiveData<List<Category>>()
     val categories: LiveData<List<Category>> = _categories
 
-    private val _favoritesMeals = MutableLiveData<List<Meal>>(mealDatabase.mealDao().getAllMeals().value)
+    private val _favoritesMeals = MutableLiveData<List<Meal>>()
     val favoritesMeals: LiveData<List<Meal>> = _favoritesMeals
+
+    init { viewModelScope.launch { _favoritesMeals.value = mealDatabase.mealDao().getAllMeals() } }
 
     fun getRandomMeal() {
         RetrofitInstance.api.getRandomMeal().enqueue(object : Callback<MealList> {
@@ -44,7 +48,8 @@ class HomeFragmentViewModel(
     }
 
     fun getPopularItems(categoryName: String) {
-        RetrofitInstance.api.getPopularItem(categoryName).enqueue(object : Callback<MealsByCategoryList> {
+        RetrofitInstance.api.getPopularItem(categoryName).enqueue(object :
+            Callback<MealsByCategoryList> {
             override fun onResponse(call: Call<MealsByCategoryList>, response: Response<MealsByCategoryList>) {
                 response.body()?.let { mealsByCategoryList ->
                     mealsByCategoryList.meals?.let { popularItems ->

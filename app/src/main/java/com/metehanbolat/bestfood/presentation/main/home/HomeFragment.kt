@@ -6,13 +6,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.metehanbolat.bestfood.databinding.FragmentHomeBinding
 import com.metehanbolat.bestfood.models.Meal
 import com.metehanbolat.bestfood.presentation.categorymeals.CategoryMealsActivity
+import com.metehanbolat.bestfood.presentation.main.MainActivity
+import com.metehanbolat.bestfood.presentation.main.MainActivityViewModel
 import com.metehanbolat.bestfood.presentation.mealdetail.MealActivity
 
 class HomeFragment : Fragment() {
@@ -20,7 +21,7 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var homeViewModel: HomeFragmentViewModel
+    private lateinit var mainViewModel: MainActivityViewModel
     private lateinit var popularItemsAdapter: MostPopularAdapter
     private lateinit var categoriesAdapter: CategoriesAdapter
 
@@ -39,7 +40,7 @@ class HomeFragment : Fragment() {
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
-        homeViewModel = ViewModelProvider(this)[HomeFragmentViewModel::class.java]
+        mainViewModel = (activity as MainActivity).viewModel
         popularItemsAdapter = MostPopularAdapter()
         categoriesAdapter = CategoriesAdapter()
 
@@ -51,17 +52,17 @@ class HomeFragment : Fragment() {
 
         preparePopularItemsRecyclerView()
         prepareCategoriesRecyclerView()
-        homeViewModel.getRandomMeal()
+        mainViewModel.getRandomMeal()
         observeRandomMeal()
-        homeViewModel.getPopularItems("Seafood")
+        mainViewModel.getPopularItems("Seafood")
         observePopularItems()
-        homeViewModel.getCategories()
+        mainViewModel.getCategories()
         observeCategories()
         clicks()
     }
 
     private fun observeRandomMeal() {
-        homeViewModel.randomMeal.observe(viewLifecycleOwner) {
+        mainViewModel.randomMeal.observe(viewLifecycleOwner) {
             it?.let {
                 binding.randomMealProgress.visibility = View.INVISIBLE
                 binding.refreshCardView.visibility = View.VISIBLE
@@ -72,13 +73,13 @@ class HomeFragment : Fragment() {
     }
 
     private fun observePopularItems() {
-        homeViewModel.popularItems.observe(viewLifecycleOwner) {
+        mainViewModel.popularItems.observe(viewLifecycleOwner) {
             it?.let { popularItemsAdapter.setMeals(it as ArrayList) }
         }
     }
 
     private fun observeCategories() {
-        homeViewModel.categories.observe(viewLifecycleOwner) {
+        mainViewModel.categories.observe(viewLifecycleOwner) {
             it?.let { categoriesAdapter.setCategoryList(it) }
 
         }
@@ -111,7 +112,7 @@ class HomeFragment : Fragment() {
         binding.refreshCardView.setOnClickListener {
             binding.refreshCardView.visibility = View.INVISIBLE
             binding.randomMealProgress.visibility = View.VISIBLE
-            homeViewModel.getRandomMeal()
+            mainViewModel.getRandomMeal()
         }
 
         popularItemsAdapter.onItemClick = { meal ->

@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.GridLayoutManager
 import com.metehanbolat.bestfood.databinding.FragmentFavoritesBinding
 import com.metehanbolat.bestfood.presentation.main.MainActivity
 import com.metehanbolat.bestfood.presentation.main.MainActivityViewModel
@@ -15,6 +16,7 @@ class FavoritesFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var mainViewModel: MainActivityViewModel
+    private lateinit var favoritesAdapter: FavoritesMealsAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,7 +33,9 @@ class FavoritesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        prepareRecyclerView()
         observeFavorites()
+
     }
 
 
@@ -40,11 +44,17 @@ class FavoritesFragment : Fragment() {
         _binding = null
     }
 
+    private fun prepareRecyclerView() {
+        favoritesAdapter = FavoritesMealsAdapter()
+        binding.rvFavorites.apply {
+            layoutManager = GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
+            adapter = favoritesAdapter
+        }
+    }
+
     private fun observeFavorites() {
         mainViewModel.favoritesMeals.observe(viewLifecycleOwner) { meals ->
-            meals.forEach {
-                println("Favorite yemekler: ${it.strMeal}")
-            }
+            favoritesAdapter.differ.submitList(meals)
         }
     }
 }

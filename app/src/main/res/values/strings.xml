@@ -19,4 +19,7 @@
     <string name="popular_meal_item_image">Popular Meal Item Image</string>
     <string name="category_image">Category Image</string>
     <string name="meal_image">Meal Image</string>
+    
+    <string name="meal_was_deleted">%1$s was deleted!</string>
+    <string name="undo">Undo</string>
 </resources>

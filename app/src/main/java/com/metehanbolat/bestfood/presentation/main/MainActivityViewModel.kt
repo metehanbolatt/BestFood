@@ -79,4 +79,7 @@ class MainActivityViewModel(
 
         })
     }
+
+    fun insertMeal(meal: Meal) { viewModelScope.launch { mealDatabase.mealDao().upsert(meal) } }
+    fun deleteMeal(meal: Meal) { viewModelScope.launch { mealDatabase.mealDao().delete(meal) } }
 }

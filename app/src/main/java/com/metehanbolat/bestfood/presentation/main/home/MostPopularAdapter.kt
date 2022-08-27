@@ -10,7 +10,8 @@ import com.metehanbolat.bestfood.models.MealsByCategory
 
 class MostPopularAdapter : RecyclerView.Adapter<MostPopularAdapter.PopularMealViewHolder>() {
 
-    lateinit var onItemClick:((MealsByCategory) -> Unit)
+    lateinit var onItemClick: ((MealsByCategory) -> Unit)
+    var onLongItemClick: ((MealsByCategory) -> Unit)? = null
     private var mealsList = ArrayList<MealsByCategory>()
 
     class PopularMealViewHolder(val binding: PopularItemsBinding) :
@@ -22,10 +23,12 @@ class MostPopularAdapter : RecyclerView.Adapter<MostPopularAdapter.PopularMealVi
     }
 
     override fun onBindViewHolder(holder: PopularMealViewHolder, position: Int) {
-        Glide.with(holder.itemView).load(mealsList[position].strMealThumb)
-            .into(holder.binding.imgPopularMealItem)
-
-        holder.itemView.setOnClickListener { onItemClick.invoke(mealsList[position]) }
+        val item = mealsList[position]
+        holder.binding.apply {
+            Glide.with(root).load(item.strMealThumb).into(imgPopularMealItem)
+            root.setOnClickListener { onItemClick.invoke(item) }
+            root.setOnLongClickListener { onLongItemClick?.invoke(item) ; true }
+        }
     }
 
     override fun getItemCount() = mealsList.size

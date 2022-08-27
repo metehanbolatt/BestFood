@@ -14,6 +14,7 @@ import com.metehanbolat.bestfood.models.Meal
 import com.metehanbolat.bestfood.presentation.categorymeals.CategoryMealsActivity
 import com.metehanbolat.bestfood.presentation.main.MainActivity
 import com.metehanbolat.bestfood.presentation.main.MainActivityViewModel
+import com.metehanbolat.bestfood.presentation.main.bottomsheet.MealBottomSheetFragment
 import com.metehanbolat.bestfood.presentation.mealdetail.MealActivity
 
 class HomeFragment : Fragment() {
@@ -129,6 +130,11 @@ class HomeFragment : Fragment() {
                 putExtra(CATEGORY_NAME, category.strCategory)
                 startActivity(this)
             }
+        }
+
+        popularItemsAdapter.onLongItemClick = { meal ->
+            val mealBottomSheetFragment = MealBottomSheetFragment.newInstance(meal.idMeal)
+            mealBottomSheetFragment.show(childFragmentManager, "Meal Info")
         }
     }
 

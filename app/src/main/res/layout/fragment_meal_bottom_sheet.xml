@@ -2,6 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bottom_sheet"
+    android:padding="10dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     tools:context=".presentation.main.bottomsheet.MealBottomSheetFragment">
@@ -54,11 +56,12 @@
 
     <TextView
         android:id="@+id/tv_bottom_sheet_meal_name"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:fontFamily="@font/my_font"
         android:textColor="@color/g_black"
+        app:layout_constraintEnd_toEndOf="@id/linear_bottom_sheet"
         app:layout_constraintStart_toStartOf="@id/linear_bottom_sheet"
         app:layout_constraintTop_toBottomOf="@id/linear_bottom_sheet"
         tools:text="Meal Name" />
@@ -72,6 +75,6 @@
         android:textColor="@color/g_black"
         app:layout_constraintStart_toStartOf="@id/tv_bottom_sheet_meal_name"
         app:layout_constraintTop_toBottomOf="@id/tv_bottom_sheet_meal_name"
-        tools:text="Read More ..." />
+        android:text="@string/read_more" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

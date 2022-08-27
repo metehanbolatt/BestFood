@@ -20,4 +20,5 @@
 
     <string name="meal_was_deleted">%1$s was deleted!</string>
     <string name="undo">Undo</string>
+    <string name="bottom_sheet_image">Bottom Sheet Image</string>
 </resources>

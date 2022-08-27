@@ -29,6 +29,9 @@ class MainActivityViewModel(
     private val _favoritesMeals = MutableLiveData<List<Meal>>()
     val favoritesMeals: LiveData<List<Meal>> = _favoritesMeals
 
+    private val _bottomSheetMeal = MutableLiveData<Meal>()
+    val bottomSheetMeal: LiveData<Meal> = _bottomSheetMeal
+
     init { viewModelScope.launch { _favoritesMeals.value = mealDatabase.mealDao().getAllMeals() } }
 
     fun getRandomMeal() {
@@ -74,6 +77,22 @@ class MainActivityViewModel(
             }
 
             override fun onFailure(call: Call<CategoryList>, t: Throwable) {
+                Log.d("HomeFragment", t.message.toString())
+            }
+
+        })
+    }
+
+    fun getMealById(id: String) {
+        RetrofitInstance.api.getMealDetails(id).enqueue(object : Callback<MealList> {
+            override fun onResponse(call: Call<MealList>, response: Response<MealList>) {
+                val meal = response.body()?.meals?.first()
+                meal?.let {
+                    _bottomSheetMeal.value = it
+                }
+            }
+
+            override fun onFailure(call: Call<MealList>, t: Throwable) {
                 Log.d("HomeFragment", t.message.toString())
             }
 

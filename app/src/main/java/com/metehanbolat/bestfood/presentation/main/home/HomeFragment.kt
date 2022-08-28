@@ -82,7 +82,6 @@ class HomeFragment : Fragment() {
     private fun observeCategories() {
         mainViewModel.categories.observe(viewLifecycleOwner) {
             it?.let { categoriesAdapter.setCategoryList(it) }
-
         }
     }
 

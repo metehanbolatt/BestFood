@@ -34,12 +34,18 @@ class MainActivityViewModel(
 
     init { viewModelScope.launch { _favoritesMeals.value = mealDatabase.mealDao().getAllMeals() } }
 
+    private var saveSateRandomMeal: Meal? = null
+
     fun getRandomMeal() {
+        saveSateRandomMeal?.let { _randomMeal.value = it ; return }
+
+
         RetrofitInstance.api.getRandomMeal().enqueue(object : Callback<MealList> {
             override fun onResponse(call: Call<MealList>, response: Response<MealList>) {
                 response.body()?.let { mealList ->
                     val randomMeal = mealList.meals[0]
                     _randomMeal.value = randomMeal
+                    saveSateRandomMeal = randomMeal
                 } ?: return
             }
 
